@@ -46,55 +46,54 @@ CREATE TABLE retail_sales
 ### 2. Data Exploration & Cleaning
 
 ---
-
 #1. how many sales we have
     
-    ```
+```sql
     select count(*) as total_sales from retail_sales;
     
-    ```
+ ```
 
 #2. How many customers we have
    
-    ```
+```sql
     select count(customer_id) total_customers from retail_sales;
     
-    ```
+```
 
 #3. How many unique customers we have
    
-    ```
+ ```sql
     select count(distinct customer_id) actual_customers from retail_sales;
     
-    ```
+```
     
 #4. How many unique categories we have 
     
-    ```
+ ```sql
     select count(distinct category) total_categories from retail_sales;
    
-    ```
+ ```
 
 #5. what categories do we have
    
-    ```
+ ```sql
     select distinct category from retail_sales;
     
-    ```
+ ```
 
 ### 3. Data Analysis & Findings
 
 The following SQL queries were developed to answer specific business questions:
 
 1. **Write a SQL query to retrieve all columns for sales made on '2022-11-05**:
-    ```
+    ```sql
     SELECT *
     FROM retail_sales
     WHERE sale_date = '2022-11-05';
     ```
 
 2. **Write a SQL query to retrieve all transactions where the category is 'Clothing' and the quantity sold is more than 4 in the month of Nov-2022**:
-    ```
+    ```sql
     SELECT * FROM retail_sales
     WHERE category like '%Clothing%'
     AND quantity >= 4 
@@ -102,14 +101,14 @@ The following SQL queries were developed to answer specific business questions:
     ```
 
 3. **Write a SQL query to calculate the total sales (total_sale) for each category.**:
-     ```
+     ```sql
      select category, sum(total_sale) total_sales, count(*) total_orders
      from retail_sales
      group by  category;
      ```
 
 4. **Write a SQL query to find the average age of customers who purchased items from the 'Beauty' category.**:
-     ```
+     ```sql
      select category, round(avg(age),0) average_age 
      from retail_sales
      where category like '%beauty%'
@@ -117,13 +116,13 @@ The following SQL queries were developed to answer specific business questions:
      ```
 
 5. **Write a SQL query to find all transactions where the total_sale is greater than 1000.**:
-     ```
+     ```sql
      select transactions_id, total_sale from retail_sales
      where total_sale > 1000;
      ```
 
 6. **Write a SQL query to find the total number of transactions (transaction_id) made by each gender in each category.**:
-    ```
+    ```sql
    select category, gender, count(transactions_id) total_transactions
    from retail_sales
    group by category, gender;
@@ -131,7 +130,7 @@ The following SQL queries were developed to answer specific business questions:
 
 7. **Write a SQL query to calculate the average sale for each month. Find out best selling month in each year**:
 
-   ```
+   ```sql
    select years, months, total_sales from
    (select year(sale_date) years, month(sale_date) months, 
    round(avg(total_sale),0) total_sales, 
@@ -143,7 +142,7 @@ The following SQL queries were developed to answer specific business questions:
 
 8. **Write a SQL query to find the top 5 customers based on the highest total sales **:
 
-   ```
+   ```sql
    select customer_id, sum(total_sale) net_sales from retail_sales
    group by customer_id
    order by net_sales desc
@@ -152,7 +151,7 @@ The following SQL queries were developed to answer specific business questions:
 
 9. **Write a SQL query to find the number of unique customers who purchased items from each category.**:
 
-   ```
+   ```sql
    select category, count(distinct customer_id)
    from retail_sales
    group by category;
@@ -160,7 +159,7 @@ The following SQL queries were developed to answer specific business questions:
 
 10. **Write a SQL query to create each shift and number of orders (Example Morning <12, Afternoon Between 12 & 17, Evening >17)**:
 
-   ```
+   ```sql
     with hourly_sale as (select *, Case 
           when hour(sale_time) < 12 then "morning"
           when hour(sale_time) between 12 and 17 then "afternoon"
